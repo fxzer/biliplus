@@ -52,6 +52,9 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#changes-from-upstream">Changes From Upstream</a></li>
+      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -86,6 +89,16 @@ Principle:
 * Does not affect the original appearance.
 * Maintain consistent Bilibili style.
 * If you feel uncomfortable in Bilibili.com, come and request feature.
+
+## Changes From Upstream
+
+This project is forked from [0xlau/biliplus](https://github.com/0xlau/biliplus). Main changes:
+
+* Added theme auto-switch following system color scheme, with auto page reload preserving video progress and scroll position (enabled by default).
+* Video playback rate now has three modes: none / stepless slider / dropdown presets (0.5x–5.0x, dropdown by default).
+* Master switch and homepage "roll back" feature are enabled by default.
+* Removed AI video summary, cover viewer count, and hide-user-comment features.
+* Fixed "Receiving end does not exist" error; no more duplicate API requests when features are off.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
