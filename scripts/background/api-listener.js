@@ -10,28 +10,30 @@ function isExtensionRequest(details) {
 
 // 缓存功能开关，避免每次请求都读 storage
 let autoSubtitleEnabled = null;
-chrome.storage.sync.get(['biliplus-enable', 'auto-subtitle'], storage => {
-    autoSubtitleEnabled = storage['biliplus-enable'] !== false && !!storage['auto-subtitle'];
-});
+const loadSwitch = () => {
+    chrome.storage.sync.get(['biliplus-enable', 'auto-subtitle'], storage => {
+        autoSubtitleEnabled = storage['biliplus-enable'] !== false && !!storage['auto-subtitle'];
+    });
+};
+loadSwitch();
 chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'sync' && (changes['auto-subtitle'] || changes['biliplus-enable'])) {
-        chrome.storage.sync.get(['biliplus-enable', 'auto-subtitle'], storage => {
-            autoSubtitleEnabled = storage['biliplus-enable'] !== false && !!storage['auto-subtitle'];
-        });
+        loadSwitch();
     }
 });
 
 chrome.webRequest.onCompleted.addListener((details) => {
-    // 功能没开就不重发请求
-    if (!autoSubtitleEnabled) {
-        return;
-    }
     // 只处理页面发起的请求
     if (isExtensionRequest(details)) {
         return;
     }
-
-    if (details.type === 'xmlhttprequest') {
+    if (details.type !== 'xmlhttprequest') {
+        return;
+    }
+    const fetchSubtitle = () => {
+        if (!autoSubtitleEnabled) {
+            return;
+        }
         fetch(details.url)
             .then(response => response.json())
             .then(data => {
@@ -48,6 +50,16 @@ chrome.webRequest.onCompleted.addListener((details) => {
                 }
             })
             .catch(error => console.error("获取字幕数据失败:", error));
+    };
+    if (autoSubtitleEnabled === null) {
+        // MV3 service worker 冷启动被事件唤醒时，顶层读 storage 的回调可能尚未执行，
+        // 这里补读完成后再处理，避免丢事件导致功能失效
+        chrome.storage.sync.get(['biliplus-enable', 'auto-subtitle'], storage => {
+            autoSubtitleEnabled = storage['biliplus-enable'] !== false && !!storage['auto-subtitle'];
+            fetchSubtitle();
+        });
+    } else {
+        fetchSubtitle();
     }},
     {
         urls: ["*://api.bilibili.com/x/player/wbi/v2*"],

@@ -29,6 +29,13 @@ chrome.storage.sync.get(['biliplus-enable', 'theme-follow-system'], storage => {
 
     const applyTheme = () => {
       const isDark = darkQuery.matches;
+      // B站会因滚动等原因频繁增删html类名，观察器回调先做状态守卫，一致时直接返回
+      const hasDarkClass =
+        document.documentElement.classList.contains('night-mode') ||
+        document.documentElement.classList.contains('bili_dark');
+      if (isDark === hasDarkClass) {
+        return;
+      }
       syncBiliThemeStorage(isDark);
       // 新旧几套夜间模式的类名一起切换（对深色样式已随页面加载的页面即时生效）
       ['night-mode', 'bili_dark', 'dark'].forEach(className => {

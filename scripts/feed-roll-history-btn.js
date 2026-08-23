@@ -4,8 +4,20 @@
 chrome.storage.sync.get(['biliplus-enable', 'feed-roll-history-btn'], storage => {
   // 总开关与回溯功能均默认开启：只要没有显式关闭过就生效
   if (storage['biliplus-enable'] !== false && storage['feed-roll-history-btn'] !== false) {
+    // 每页feed卡片的innerHTML不小，限制保留的页数防止长会话内存无限增长
+    const FEED_HISTORY_LIMIT = 30;
     const feedHistory = [];
     let feedHistoryIndex = 0;
+
+    // 存入历史并在超出上限时丢弃最旧的，同步校正索引
+    const pushFeedHistory = feedCards => {
+      feedHistory.push(listInnerHTMLOfFeedCard(feedCards));
+      const overflow = feedHistory.length - FEED_HISTORY_LIMIT;
+      if (overflow > 0) {
+        feedHistory.splice(0, overflow);
+        feedHistoryIndex -= overflow;
+      }
+    };
 
     const feedRollBackBtn = `
     <button id="feed-roll-back-btn" class="primary-btn feed-roll-back-btn biliplus-disabled">
@@ -32,7 +44,7 @@ chrome.storage.sync.get(['biliplus-enable', 'feed-roll-history-btn'], storage =>
         document.getElementById('feed-roll-back-btn').addEventListener('click', () => {
           let feedCards = document.getElementsByClassName('feed-card');
           if (feedHistoryIndex == feedHistory.length) {
-            feedHistory.push(listInnerHTMLOfFeedCard(feedCards));
+            pushFeedHistory(feedCards);
           }
           for (let fc_i = 0; fc_i < feedCards.length; fc_i++) {
             feedCards[fc_i].innerHTML = feedHistory[feedHistoryIndex - 1][fc_i];
@@ -69,8 +81,7 @@ chrome.storage.sync.get(['biliplus-enable', 'feed-roll-history-btn'], storage =>
           // 等待元素加载
           setTimeout(() => {
             if (feedHistoryIndex == feedHistory.length) {
-              let feedCards = listInnerHTMLOfFeedCard(document.getElementsByClassName('feed-card'));
-              feedHistory.push(feedCards);
+              pushFeedHistory(document.getElementsByClassName('feed-card'));
             }
             feedHistoryIndex = feedHistory.length;
             disableElementById('feed-roll-back-btn', false);

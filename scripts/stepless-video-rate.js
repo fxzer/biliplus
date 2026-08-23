@@ -37,6 +37,18 @@ chrome.storage.sync.get(['biliplus-enable', 'stepless-video-rate'], storage => {
 function initRateButton(rateButtonHTML) {
   document.body.classList.add('biliplus-stepless-video-rate');
 
+  // B站切换视频（SPA不刷新页面）会把倍速重置回 1.0，这里把用户设定的倍速重新应用
+  const applyVideoRate = e => {
+    if (e.target.tagName !== 'VIDEO' || Number(videoRate) === 1.0) {
+      return;
+    }
+    if (e.target.playbackRate !== Number(videoRate)) {
+      e.target.playbackRate = videoRate;
+    }
+  };
+  document.addEventListener('loadedmetadata', applyVideoRate, true);
+  document.addEventListener('ratechange', applyVideoRate, true);
+
   const disconnect = _UTILS.observe(document.body, () => {
     if (document.querySelector('.bpx-player-ctrl-btn.bpx-player-ctrl-playbackrate') == null) {
       return;
