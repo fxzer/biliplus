@@ -14,16 +14,13 @@
     },
     {
       "js": [
-        "scripts/common/md5.min.js",
         "scripts/common/utils.js",
-        "scripts/common/bilibili-api.js",
         "scripts/global-patches.js",
-        "scripts/ai-conclusion.js",
         "scripts/hide-hot-search-list.js",
         "scripts/auto-subtitle.js"
       ],
       "matches": ["https://*.bilibili.com/*"],
-      "css": ["css/global.css", "css/ai-conclusion.css"]
+      "css": ["css/global.css"]
     },
     {
       "js": ["scripts/common/utils.js", "scripts/stepless-video-rate.js"],
