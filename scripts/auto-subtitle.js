@@ -5,7 +5,7 @@
  */
 
 chrome.storage.sync.get(['biliplus-enable', 'auto-subtitle'], storage => {
-    if (storage['biliplus-enable'] && storage['auto-subtitle']) { // 注意这里的条件判断
+    if (storage['biliplus-enable'] !== false && storage['auto-subtitle']) { // 总开关未设置视为开启
         // 监听请求消息，使用mutation observer配合监听页面变化
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             if (message.type === 'subtitle-ready' && message.exists) {

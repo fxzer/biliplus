@@ -2,7 +2,8 @@
  * 首页“换一换”回溯功能实现
  */
 chrome.storage.sync.get(['biliplus-enable', 'feed-roll-history-btn'], storage => {
-  if (storage['biliplus-enable'] && storage['feed-roll-history-btn']) {
+  // 总开关与回溯功能均默认开启：只要没有显式关闭过就生效
+  if (storage['biliplus-enable'] !== false && storage['feed-roll-history-btn'] !== false) {
     const feedHistory = [];
     let feedHistoryIndex = 0;
 

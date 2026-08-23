@@ -11,12 +11,12 @@ function isExtensionRequest(details) {
 // 缓存功能开关，避免每次请求都读 storage
 let autoSubtitleEnabled = null;
 chrome.storage.sync.get(['biliplus-enable', 'auto-subtitle'], storage => {
-    autoSubtitleEnabled = !!(storage['biliplus-enable'] && storage['auto-subtitle']);
+    autoSubtitleEnabled = storage['biliplus-enable'] !== false && !!storage['auto-subtitle'];
 });
 chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'sync' && (changes['auto-subtitle'] || changes['biliplus-enable'])) {
         chrome.storage.sync.get(['biliplus-enable', 'auto-subtitle'], storage => {
-            autoSubtitleEnabled = !!(storage['biliplus-enable'] && storage['auto-subtitle']);
+            autoSubtitleEnabled = storage['biliplus-enable'] !== false && !!storage['auto-subtitle'];
         });
     }
 });

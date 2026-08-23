@@ -13,10 +13,17 @@ let videoRate = 1.0;
 const RATE_OPTIONS = [5.0, 4.0, 3.0, 2.5, 2.0, 1.75, 1.5, 1.25, 1.0, 0.75, 0.5];
 
 chrome.storage.sync.get(['biliplus-enable', 'stepless-video-rate'], storage => {
-  if (!storage['biliplus-enable']) {
+  // 总开关默认开启；倍速默认为下拉模式，只要没有显式关闭过就生效
+  if (storage['biliplus-enable'] === false) {
     return;
   }
-  const mode = storage['stepless-video-rate'] === true ? 'slider' : storage['stepless-video-rate'];
+  let mode = storage['stepless-video-rate'];
+  if (mode === undefined) {
+    mode = 'dropdown';
+  }
+  if (mode === true) {
+    mode = 'slider';
+  }
   if (mode === 'slider') {
     initRateButton(buildSliderButton());
   } else if (mode === 'dropdown') {

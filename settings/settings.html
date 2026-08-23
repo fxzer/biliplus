@@ -48,7 +48,7 @@
           <div class="tooltip tooltip-right" data-tip="关闭后所有功能不作用">
             <span class="label-text">BiliPlus 总开关</span>
           </div>
-          <input type="checkbox" class="toggle" data-key="biliplus-enable" />
+          <input type="checkbox" class="toggle" data-key="biliplus-enable" data-default="on" />
         </label>
         <label class="label cursor-pointer">
           <span class="label-text">开启首页干净模式（去除大屏）</span>
@@ -56,7 +56,7 @@
         </label>
         <label class="label cursor-pointer">
           <span class="label-text">开启首页“换一换”回溯功能</span>
-          <input type="checkbox" class="toggle" data-key="feed-roll-history-btn" />
+          <input type="checkbox" class="toggle" data-key="feed-roll-history-btn" data-default="on" />
         </label>
         <label class="label cursor-pointer">
           <span class="label-text">开启视频封面 AI 总结</span>
@@ -67,7 +67,7 @@
         </label>
         <div class="form-control flex flex-row items-center justify-between px-3">
           <label class="label cursor-pointer justify-start gap-1">
-            <input type="radio" name="stepless-video-rate" class="radio radio-sm" value="none" data-key="stepless-video-rate" data-default />
+            <input type="radio" name="stepless-video-rate" class="radio radio-sm" value="none" data-key="stepless-video-rate" />
             <span class="label-text-alt">无</span>
           </label>
           <label class="label cursor-pointer justify-start gap-1">
@@ -75,7 +75,7 @@
             <span class="label-text-alt">滑块无级变速</span>
           </label>
           <label class="label cursor-pointer justify-start gap-1">
-            <input type="radio" name="stepless-video-rate" class="radio radio-sm" value="dropdown" data-key="stepless-video-rate" />
+            <input type="radio" name="stepless-video-rate" class="radio radio-sm" value="dropdown" data-key="stepless-video-rate" data-default />
             <span class="label-text-alt">下拉选择变速</span>
           </label>
         </div>

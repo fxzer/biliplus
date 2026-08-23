@@ -7,8 +7,8 @@
  */
 
 chrome.storage.sync.get(['biliplus-enable', 'theme-follow-system'], storage => {
-  // 默认开启：只要没有显式关闭过就生效
-  if (storage['biliplus-enable'] && storage['theme-follow-system'] !== false) {
+  // 总开关与功能均默认开启：只要没有显式关闭过就生效
+  if (storage['biliplus-enable'] !== false && storage['theme-follow-system'] !== false) {
     const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     const applyTheme = () => {

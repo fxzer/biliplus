@@ -5,7 +5,7 @@
 const aiData = {};
 
 chrome.storage.sync.get(['biliplus-enable', 'ai-conclusion'], storage => {
-  if (storage['biliplus-enable'] && storage['ai-conclusion']) {
+  if (storage['biliplus-enable'] !== false && storage['ai-conclusion']) {
     const container = document.querySelector('body');
 
     container.addEventListener('mouseover', async e => {
