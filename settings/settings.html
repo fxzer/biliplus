@@ -63,9 +63,22 @@
           <input type="checkbox" class="toggle" data-key="ai-conclusion" />
         </label>
         <label class="label cursor-pointer">
-          <span class="label-text">开启视频速度无级倍速</span>
-          <input type="checkbox" class="toggle" data-key="stepless-video-rate" />
+          <span class="label-text">视频倍速</span>
         </label>
+        <div class="form-control flex flex-row items-center justify-between px-3">
+          <label class="label cursor-pointer justify-start gap-1">
+            <input type="radio" name="stepless-video-rate" class="radio radio-sm" value="none" data-key="stepless-video-rate" data-default />
+            <span class="label-text-alt">无</span>
+          </label>
+          <label class="label cursor-pointer justify-start gap-1">
+            <input type="radio" name="stepless-video-rate" class="radio radio-sm" value="slider" data-key="stepless-video-rate" />
+            <span class="label-text-alt">滑块无级变速</span>
+          </label>
+          <label class="label cursor-pointer justify-start gap-1">
+            <input type="radio" name="stepless-video-rate" class="radio radio-sm" value="dropdown" data-key="stepless-video-rate" />
+            <span class="label-text-alt">下拉选择变速</span>
+          </label>
+        </div>
         <label class="label cursor-pointer">
           <span class="label-text">开启自动打开字幕</span>
           <input type="checkbox" class="toggle" data-key="auto-subtitle" />
@@ -75,23 +88,11 @@
           <input type="checkbox" class="toggle" data-key="hide-hot-search-list" />
         </label>
         <label class="label cursor-pointer">
-          <div class="tooltip tooltip-right tooltip-error" data-tip="谨慎使用！">
-            <span class="label-text text-red-400">显示视频封面正在观看人数</span>
+          <div class="tooltip tooltip-right" data-tip="B站夜间模式跟随系统深浅色自动切换">
+            <span class="label-text">开启主题跟随系统</span>
           </div>
-          <input type="checkbox" class="toggle" data-key="cover-viewer" />
+          <input type="checkbox" class="toggle" data-key="theme-follow-system" data-default="on" />
         </label>
-        <a href="./settings-hide-user-comment.html">
-          <label class="label cursor-pointer">
-            <span class="label-text">隐藏指定用户评论</span>
-
-            <div class="flex flex-row items-center">
-              <div class="badge badge-neutral hidden" id="hide-user-comment-count">0</div>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path>
-              </svg>
-            </div>
-          </label>
-        </a>
       </div>
     </div>
   </body>

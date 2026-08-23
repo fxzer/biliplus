@@ -2,7 +2,9 @@ $(function () {
   $('input[type=checkbox]').each(function () {
     let key = $(this).data('key');
     chrome.storage.sync.get(key, storage => {
-      $(this).attr('checked', storage[key]);
+      // 未设置过时使用默认值，带 data-default="on" 的功能默认开启
+      let checked = storage[key] === undefined ? $(this).data('default') === 'on' : storage[key];
+      $(this).attr('checked', checked);
     });
 
     $(this).change(() => {
@@ -16,11 +18,25 @@ $(function () {
     });
   });
 
-  chrome.storage.sync.get('hide-user-comment', storage => {
-    const hideUsers = storage['hide-user-comment'];
-    if (hideUsers != null && hideUsers.length > 0) {
-      $('#hide-user-comment-count').html(hideUsers.length);
-      $('#hide-user-comment-count').removeClass('hidden');
-    }
+  $('input[type=radio]').each(function () {
+    let key = $(this).data('key');
+    let value = $(this).val();
+    chrome.storage.sync.get(key, storage => {
+      // 旧版本无级倍速存的是布尔值，true 兼容视为滑块模式
+      let stored = storage[key] === true ? 'slider' : storage[key];
+      if (stored === undefined) {
+        // 未设置过时使用默认值（带 data-default 的选项）
+        stored = $(`input[type=radio][data-key="${key}"][data-default]`).val();
+      }
+      this.checked = stored === value;
+    });
+
+    $(this).change(() => {
+      const data = {};
+      data[key] = value;
+      chrome.storage.sync.set(data, () => {
+        console.log('配置保存成功！');
+      });
+    });
   });
 });

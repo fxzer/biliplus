@@ -131,35 +131,6 @@ class _BILIAPI {
   }
 
   /**
-   * 获取对应视频的在线观看人数数据
-   * @param {*} aid
-   * @param {*} cid
-   * @param {*} bvid
-   * @returns 观看人数data
-   */
-  /*
-    {
-        "total": "44",
-        "count": "44",
-        "show_switch": {
-            "total": true,
-            "count": true
-        },
-        "abtest": {
-            "group": "b"
-        }
-    }
-  */
-  static async getOnlineTotal(aid, cid, bvid) {
-    const response = await fetch(`${_BILIAPI.BILIBILI_API}/x/player/online/total?aid=${aid}&cid=${cid}&bvid=${bvid}`);
-    const jsonData = await response.json();
-    if (response.status !== 200 || !jsonData) {
-      throw new Error();
-    }
-    return jsonData.data;
-  }
-
-  /**
    * 根据keyword获取用户信息
    * @param {string} keyword
    * @returns 用户data
@@ -211,23 +182,6 @@ class _BILIAPI {
       "is_senior_member": 0
     }
   */
-  static async getUserInfoByKeyword(keyword) {
-    const response = await fetch(`${_BILIAPI.BILIBILI_API}/x/web-interface/wbi/search/type?search_type=bili_user&keyword=${keyword}`);
-    const jsonData = await response.json();
-    if (response.status !== 200 || !jsonData) {
-      throw new Error();
-    }
-    if (jsonData.data.result == undefined) {
-      return null;
-    }
-    for (const userData of jsonData.data.result) {
-      if (userData.uname == keyword || String(userData.mid) == keyword.replace(/^uid/, '')) {
-        return userData;
-      }
-    }
-    return null;
-  }
-
   /**
    * 获取导航栏用户信息
    * @returns 用户信息data
